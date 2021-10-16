@@ -124,6 +124,54 @@ void BubbleSort(int arr[], int size)
         counter++;
     }
 }
+// Merge_Sort
+void swapping(int &a, int &b) {     //swap the content of a and b
+   int temp;
+   temp = a;
+   a = b;
+   b = temp;
+}
+void merge(int *array, int l, int m, int r) {
+   int i, j, k, nl, nr;
+   //size of left and right sub-arrays
+   nl = m-l+1; nr = r-m;
+   int larr[nl], rarr[nr];
+   //fill left and right sub-arrays
+   for(i = 0; i<nl; i++)
+      larr[i] = array[l+i];
+   for(j = 0; j<nr; j++)
+      rarr[j] = array[m+1+j];
+   i = 0; j = 0; k = l;
+   //marge temp arrays to real array
+   while(i < nl && j<nr) {
+      if(larr[i] <= rarr[j]) {
+         array[k] = larr[i];
+         i++;
+      }else{
+         array[k] = rarr[j];
+         j++;
+      }
+      k++;
+   }
+   while(i<nl) {       //extra element in left array
+      array[k] = larr[i];
+      i++; k++;
+   }
+   while(j<nr) {     //extra element in right array
+      array[k] = rarr[j];
+      j++; k++;
+   }
+}
+void mergeSort(int *array, int l, int r) {
+   int m;
+   if(l < r) {
+      int m = l+(r-l)/2;
+      // Sort first and second arrays
+      mergeSort(array, l, m);
+      mergeSort(array, m+1, r);
+      merge(array, l, m, r);
+   }
+}
 //binary_search
 int BinarySearch(int arr[], int size, int element)
 {
@@ -166,9 +214,10 @@ int main(){
     cout << "Enter 5 -> For Selection Sorting \n";
     cout << "Enter 6 -> For Bubble Sorting\n";
     cout << "Enter 7 -> For Insertion Sorting \n";
-    cout << "Enter 8 -> For Binary searching \n";
-    cout << "Enter 9 -> For Display\n";
-    cout << "Enter 10 -> For Quit\n";
+    cout << "Enter 8 -> For Merge Sorting \n";
+    cout << "Enter 9 -> For Binary searching \n";
+    cout << "Enter 10 -> For Display\n";
+    cout << "Enter 11 -> For Quit\n";
     cin >> choice;
     switch (choice)
     {
@@ -218,18 +267,25 @@ int main(){
         Display(arr, size);
         break;
     case 8:
+         cout << "\nBefore sorting of elements of an array\n";
+        Display(arr, size);
+        mergeSort(arr, 0, n-1);     //(n-1) for last index
+        cout << "\nAfter sorting of elements of an array\n";
+        Display(arr, size);
+        break;
+    case 9:
         cout << "Enter the element of array : ";
         cin >> element;
         cout << element << " is found at index " << BinarySearch(arr, size, element);
         break;
-    case 9:
+    case 10:
         Display(arr,size);
         break;
     default:
         break;
     }
     }
-    while(choice!=10);
+    while(choice!=11);
     return 0;
 }
 © 2021 GitHub, Inc.
